@@ -1,0 +1,21 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+init_philos	philo.c	/^void	init_philos(t_options options, t_philo philos)$/;"	f
+main	philo.c	/^int main (int ac, char **av)$/;"	f
+n_eat	philo.h	/^	int		n_eat;$/;"	m	struct:s_philo
+num	philo.h	/^	int		num;$/;"	m	struct:s_philo
+num_must_eat	philo.h	/^	int	num_must_eat;$/;"	m	struct:s_options
+num_of_philos	philo.h	/^	int	num_of_philos;$/;"	m	struct:s_options
+philo_routine	philo.c	/^void	*philo_routine(void *arg)$/;"	f
+philo_t	philo.h	/^	pthread_t	philo_t;$/;"	m	struct:s_philo
+s_options	philo.h	/^typedef struct	s_options {$/;"	s
+s_philo	philo.h	/^typedef	struct	s_philo {$/;"	s
+t_options	philo.h	/^}		t_options;$/;"	t	typeref:struct:s_options
+t_philo	philo.h	/^}		t_philo;$/;"	t	typeref:struct:s_philo
+time_to_die	philo.h	/^	int	time_to_die;$/;"	m	struct:s_options
+time_to_eat	philo.h	/^	int	time_to_eat;$/;"	m	struct:s_options
+time_to_sleep	philo.h	/^	int	time_to_sleep;$/;"	m	struct:s_options
