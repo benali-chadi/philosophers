@@ -5,7 +5,7 @@ int	ft_print(t_all all, char *msg)
 	int current_t;
 	
 	gettimeofday(&all.time.time_v, NULL);
-	current_t = all.time.time_v.tv_usec - all.time.initial_t;
+	current_t = (all.time.time_v.tv_sec * 1000) + (all.time.time_v.tv_usec / 1000) - all.time.initial_t;
 	printf("%d %d %s\n", current_t, all.num, msg);
 	return (current_t);
 }
@@ -59,6 +59,7 @@ void	init_philos(t_all all)
 		all.num = i;
 		pthread_create(&all.philos[i].philo_t, NULL, &philo_routine, &all);
 	}
+	while (1);
 	// i = -1;
 	// while (++i < all.options.num_of_philos)
 	// 	pthread_join(all.philos[i].philo_t, NULL);
@@ -70,7 +71,7 @@ int main (int ac, char **av)
 	// t_philo		*philos;
 	t_all	all;
 	gettimeofday(&all.time.time_v, NULL);
-	all.time.initial_t = all.time.time_v.tv_usec;
+	all.time.initial_t = (all.time.time_v.tv_sec * 1000) + (all.time.time_v.tv_usec / 1000);
 	if (ac > 4)
 	{
 		all.options.num_of_philos = atoi(av[1]);
