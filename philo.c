@@ -20,11 +20,11 @@ int	eating(t_philo *philo)
 		return (1);
 	}
 	philo->last_meal_t = current_t;
-
 	ft_print(*philo, "is eating");
+	philo->n_eat += 1;
 	int time = get_time();
-	usleep(philo->utils->options.time_to_eat * 1000 - 14000);
-	while (get_time() - time <= philo->utils->options.time_to_sleep * 1000);
+	usleep(philo->utils->options.time_to_eat * 1000 /*- 14000*/);
+	// while (get_time() - time <= philo->utils->options.time_to_sleep * 1000);
 	
 	pthread_mutex_unlock(&philo->utils->forks[r_fork]);
 	pthread_mutex_unlock(&philo->utils->forks[l_fork]);
@@ -35,7 +35,7 @@ void	*philo_routine(void *arg)
 {
 	// t_all *all = (t_all *)arg;
 	t_philo philo = *(t_philo *)arg;
-	printf("num = %d\n", philo.id);
+
 	while (1)
 	{
 		//	Eating
@@ -43,7 +43,7 @@ void	*philo_routine(void *arg)
 		{
 			ft_print(philo, "died");
 			philo.utils->died = 1;
-			return (NULL);
+			break;
 		}
 		//	Sleeping
 		ft_print(philo, "is sleeping");
@@ -53,6 +53,9 @@ void	*philo_routine(void *arg)
 
 		//	Thinking
 		ft_print(philo, "is thinking");
+		printf("n eat = %d\n", philo.n_eat);
+		if (philo.utils->options.num_must_eat && philo.n_eat >= philo.utils->options.num_must_eat)
+			break;
 	}
 }
 
@@ -91,22 +94,22 @@ void	init_utils(t_utils *utils, char **av)
 		utils->options.num_must_eat = atoi(av[5]);
 }
 
-void	free_all(t_philo *philos)
+void	free_all(t_philo **philos)
 {
-	free(philos[0].utils->forks);
-	free(philos);
+	free((*philos)[0].utils->forks);
+	free(*philos);
 }
 
-void	launch(t_philo *philos, int num_of_philos)
+void	launch(t_philo **philos, int num_of_philos)
 {
 	int i;
 
 	i = -1;
 	while (++i < num_of_philos)
-		pthread_create(&philos[i].philo_t, NULL, &philo_routine, &philos[i]);
+		pthread_create(&(*philos)[i].philo_t, NULL, &philo_routine, &(*philos)[i]);
 	while (1)
 	{
-		if (philos[0].utils->died)
+		if ((*philos)[0].utils->died)
 		{
 			free_all(philos);
 			return;
@@ -114,11 +117,15 @@ void	launch(t_philo *philos, int num_of_philos)
 	}
 }
 
+void	supervisor(t_philo *philos)
+{
+
+}
+
 int main (int ac, char **av)
 {
 	t_philo			*philos;
-	// pthread_mutex_t	*forks;
-	static t_utils			utils;
+	static t_utils	utils;
 	int				i;
 
 	if (ac > 4)
@@ -140,10 +147,13 @@ int main (int ac, char **av)
 			philos[i].last_meal_t = utils.initial_time;
 			philos[i].n_eat = 0;
 		}
-		// launch(philos, utils.options.num_of_philos);
+		// launch(&philos, utils.options.num_of_philos);
 		i = -1;
 		while (++i < utils.options.num_of_philos)
+		{
 			pthread_create(&philos[i].philo_t, NULL, &philo_routine, &philos[i]);
+		}
+			printf("ok\n");
 		while (1)
 		{
 			if (utils.died)
@@ -152,6 +162,24 @@ int main (int ac, char **av)
 				free(philos);
 				return (0);
 			}
+			// if (utils.options.num_must_eat)
+			// {
+				int i = -1;
+				while (utils.options.num_must_eat && ++i < utils.options.num_of_philos)
+				{
+					if (philos[i].n_eat < utils.options.num_must_eat)
+					{
+						// printf("n_eat=%d\tnum must eat=%d\n", philos[i].n_eat, utils.options.num_must_eat);
+						break;
+					}
+				}
+				if (i > utils.options.num_of_philos)
+				{
+					printf("here\n");
+					ft_print(philos[1], "died");
+					return (0);
+				}
+			// }
 		}
 	}
 	return (0);
