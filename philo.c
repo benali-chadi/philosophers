@@ -1,46 +1,49 @@
 #include "philo.h"
 
-int	ft_print(t_all all, char *msg)
-{
-	int current_t;
-	
-	gettimeofday(&all.time.time_v, NULL);
-	current_t = (all.time.time_v.tv_sec * 1000) + (all.time.time_v.tv_usec / 1000) - all.time.initial_t;
-	printf("%d %d %s\n", current_t, all.num, msg);
-	return (current_t);
-}
-
-void	eating(t_all all)
+int	eating(t_all all)
 {
 	int	l_fork;
 	int	r_fork;
 
 	l_fork = all.num;
 	r_fork = (all.num + 1) % all.options.num_of_philos;
+	
 	pthread_mutex_lock(&all.forks[l_fork]);
 	ft_print(all, "has taken a fork");
 	pthread_mutex_lock(&all.forks[r_fork]);
 	ft_print(all, "has taken a fork");
-	all.philos[all.num].last_meal_t = ft_print(all, "is eating");
-	usleep(all.options.time_to_eat);
+
+	unsigned long long current_t = get_time();
+	if (get_time() - all.philos[all.num].last_meal_t >= all.options.time_to_die)
+		return (1);
+	all.philos[all.num].last_meal_t = current_t;
+	
+	ft_print(all, "is eating");
+	usleep(all.options.time_to_eat * 1000);
+	
 	pthread_mutex_unlock(&all.forks[l_fork]);
 	pthread_mutex_unlock(&all.forks[r_fork]);
+	return (0);
 }
 
 void	*philo_routine(void *arg)
 {
-	t_all all = *(t_all *)arg;
-	printf("num = %d\n", all.num);
+	t_all *all = (t_all *)arg;
+	printf("num = %d\n", all->num);
 	while (1)
 	{
 		//	Eating
-		eating(all);
+		if (eating(*all))
+		{
+			ft_print(*all, "died");
+			all->died = 1;
+			return;
+		}
 		//	Sleeping
-		ft_print(all, "is sleeping");
-		usleep(all.options.time_to_sleep);
+		ft_print(*all, "is sleeping");
+		usleep(all->options.time_to_sleep * 1000);
 		//	Thinking
-		ft_print(all, "is thinking");
-		//	Dying
+		ft_print(*all, "is thinking");
 	}
 }
 
@@ -55,23 +58,22 @@ void	init_philos(t_all all)
 	i = -1;
 	while (++i < all.options.num_of_philos)
 	{
-		printf("i=%d\n", i);
 		all.num = i;
+		all.philos[i].last_meal_t = all.initial_time;
 		pthread_create(&all.philos[i].philo_t, NULL, &philo_routine, &all);
 	}
-	while (1);
-	// i = -1;
-	// while (++i < all.options.num_of_philos)
-	// 	pthread_join(all.philos[i].philo_t, NULL);
+	while (1)
+	{
+		if (all.died)
+			return;
+	}
 }
 
 int main (int ac, char **av)
 {
-	// t_options	options;
-	// t_philo		*philos;
 	t_all	all;
-	gettimeofday(&all.time.time_v, NULL);
-	all.time.initial_t = (all.time.time_v.tv_sec * 1000) + (all.time.time_v.tv_usec / 1000);
+	all.initial_time = get_time();
+	all.died = 0;
 	if (ac > 4)
 	{
 		all.options.num_of_philos = atoi(av[1]);
