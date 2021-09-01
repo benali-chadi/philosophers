@@ -18,7 +18,8 @@ typedef struct	s_options {
 typedef struct	s_utils {
 	// t_philo				*philos;
 	t_options			options;
-	// pthread_mutex_t		*forks;
+	pthread_mutex_t		*forks;
+	pthread_mutex_t		printing;
 	unsigned long long	initial_time;
 	// int 				num;
 	int					died;
@@ -26,8 +27,8 @@ typedef struct	s_utils {
 
 typedef	struct	s_philo {
 	pthread_t			philo_t;
-	pthread_mutex_t		**forks;
-	struct s_utils		*utils;
+	// pthread_mutex_t		**forks;
+	t_utils				*utils;
 	int					id;
 	unsigned long long	last_meal_t;
 	int					n_eat;

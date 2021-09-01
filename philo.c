@@ -1,33 +1,33 @@
 #include "philo.h"
 
-int	eating(t_philo philo)
+int	eating(t_philo *philo)
 {
 	int	l_fork;
 	int	r_fork;
 
-	l_fork = philo.id;
-	r_fork = (philo.id + 1) % philo.utils->options.num_of_philos;
+	l_fork = philo->id;
+	r_fork = (philo->id + 1) % philo->utils->options.num_of_philos;
 
-	pthread_mutex_lock(&(*philo.forks)[l_fork]);
-	ft_print(philo, "has taken a fork");
-	pthread_mutex_lock(&(*philo.forks)[r_fork]);
-	ft_print(philo, "has taken a fork");
+	pthread_mutex_lock(&philo->utils->forks[l_fork]);
+	ft_print(*philo, "has taken a fork");
+	pthread_mutex_lock(&philo->utils->forks[r_fork]);
+	ft_print(*philo, "has taken a fork");
 
 	unsigned long long current_t = get_time();
-	if (get_time() - philo.last_meal_t >= philo.utils->options.time_to_die)
+	if (get_time() - philo->last_meal_t >= philo->utils->options.time_to_die)
 	{
-		printf("diff = %d\n", current_t - philo.last_meal_t);
+		printf("diff = %llu\n", current_t - philo->last_meal_t);
 		return (1);
 	}
-	philo.last_meal_t = current_t;
+	philo->last_meal_t = current_t;
 
-	ft_print(philo, "is eating");
+	ft_print(*philo, "is eating");
 	int time = get_time();
-	usleep(philo.utils->options.time_to_eat * 1000 - 14000);
-	while (get_time() - time <= philo.utils->options.time_to_sleep * 1000);
+	usleep(philo->utils->options.time_to_eat * 1000 - 14000);
+	while (get_time() - time <= philo->utils->options.time_to_sleep * 1000);
 	
-	pthread_mutex_unlock(&(*philo.forks)[r_fork]);
-	pthread_mutex_unlock(&(*philo.forks)[l_fork]);
+	pthread_mutex_unlock(&philo->utils->forks[r_fork]);
+	pthread_mutex_unlock(&philo->utils->forks[l_fork]);
 	return (0);
 }
 
@@ -39,11 +39,11 @@ void	*philo_routine(void *arg)
 	while (1)
 	{
 		//	Eating
-		if (eating(philo))
+		if (eating((t_philo *)arg))
 		{
 			ft_print(philo, "died");
 			philo.utils->died = 1;
-			return;
+			return (NULL);
 		}
 		//	Sleeping
 		ft_print(philo, "is sleeping");
@@ -93,7 +93,7 @@ void	init_utils(t_utils *utils, char **av)
 
 void	free_all(t_philo *philos)
 {
-	free(*philos[0].forks);
+	free(philos[0].utils->forks);
 	free(philos);
 }
 
@@ -117,23 +117,24 @@ void	launch(t_philo *philos, int num_of_philos)
 int main (int ac, char **av)
 {
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
-	t_utils			utils;
+	// pthread_mutex_t	*forks;
+	static t_utils			utils;
 	int				i;
 
 	if (ac > 4)
 	{
 		init_utils(&utils, av);
 
-		forks = malloc(sizeof(t_philo) * atoi(av[1]) + 1);
+		utils.forks = malloc(sizeof(pthread_mutex_t) * atoi(av[1]) + 1);
 		while (++i < utils.options.num_of_philos)
-			pthread_mutex_init(&forks[i], NULL);
+			pthread_mutex_init(&utils.forks[i], NULL);
+		pthread_mutex_init(&utils.printing, NULL);
 		
 		philos = malloc(sizeof(t_philo) * atoi(av[1]) + 1);
 		i = -1;
 		while (++i < utils.options.num_of_philos)
 		{
-			philos[i].forks = &forks;
+			// philos[i].forks = &forks;
 			philos[i].utils = &utils;
 			philos[i].id = i;
 			philos[i].last_meal_t = utils.initial_time;
@@ -147,7 +148,7 @@ int main (int ac, char **av)
 		{
 			if (utils.died)
 			{
-				free(forks);
+				free(utils.forks);
 				free(philos);
 				return (0);
 			}

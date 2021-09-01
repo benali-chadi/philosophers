@@ -13,7 +13,10 @@ unsigned long long	get_time()
 void	ft_print(t_philo philo, char *msg)
 {
 	unsigned long long current_t;
-	
+
+	pthread_mutex_lock(&philo.utils->printing);
+
 	current_t = get_time() - philo.utils->initial_time;
-	printf("%ld %d %s\n", current_t, philo.id + 1, msg);
+	printf("%llu %d %s\n", current_t, philo.id + 1, msg);
+	pthread_mutex_unlock(&philo.utils->printing);
 }
