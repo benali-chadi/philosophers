@@ -10,10 +10,10 @@ unsigned long long	get_time()
 
 // ft_atoi
 
-void	ft_print(t_all all, char *msg)
+void	ft_print(t_philo philo, char *msg)
 {
 	unsigned long long current_t;
 	
-	current_t = get_time() - all.initial_time;
-	printf("%ld %d %s\n", current_t, all.num + 1, msg);
+	current_t = get_time() - philo.utils->initial_time;
+	printf("%ld %d %s\n", current_t, philo.id + 1, msg);
 }
