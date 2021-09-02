@@ -5,8 +5,8 @@ int	eating(t_philo *philo)
 	int	l_fork;
 	int	r_fork;
 
-	l_fork = philo->id;
-	r_fork = (philo->id + 1) % philo->utils->options.num_of_philos;
+	r_fork = philo->id;
+	l_fork = (philo->id + 1) % philo->utils->options.num_of_philos;
 
 	pthread_mutex_lock(&philo->utils->forks[l_fork]);
 	ft_print(*philo, "has taken a fork");
@@ -22,9 +22,10 @@ int	eating(t_philo *philo)
 	philo->last_meal_t = current_t;
 	ft_print(*philo, "is eating");
 	philo->n_eat += 1;
+	// printf("id=%d\tn_eat=%d\n", philo->id, philo->n_eat);
 	int time = get_time();
-	usleep(philo->utils->options.time_to_eat * 1000 /*- 14000*/);
-	// while (get_time() - time <= philo->utils->options.time_to_sleep * 1000);
+	usleep(philo->utils->options.time_to_eat * 1000 - 14000);
+	while (get_time() - time <= philo->utils->options.time_to_sleep * 1000);
 	
 	pthread_mutex_unlock(&philo->utils->forks[r_fork]);
 	pthread_mutex_unlock(&philo->utils->forks[l_fork]);
@@ -53,7 +54,6 @@ void	*philo_routine(void *arg)
 
 		//	Thinking
 		ft_print(philo, "is thinking");
-		printf("n eat = %d\n", philo.n_eat);
 		if (philo.utils->options.num_must_eat && philo.n_eat >= philo.utils->options.num_must_eat)
 			break;
 	}
@@ -124,7 +124,7 @@ void	supervisor(t_philo *philos)
 
 int main (int ac, char **av)
 {
-	t_philo			*philos;
+	static t_philo	*philos;
 	static t_utils	utils;
 	int				i;
 
@@ -133,6 +133,7 @@ int main (int ac, char **av)
 		init_utils(&utils, av);
 
 		utils.forks = malloc(sizeof(pthread_mutex_t) * atoi(av[1]) + 1);
+		i = -1;
 		while (++i < utils.options.num_of_philos)
 			pthread_mutex_init(&utils.forks[i], NULL);
 		pthread_mutex_init(&utils.printing, NULL);
@@ -152,8 +153,8 @@ int main (int ac, char **av)
 		while (++i < utils.options.num_of_philos)
 		{
 			pthread_create(&philos[i].philo_t, NULL, &philo_routine, &philos[i]);
+			usleep(100);
 		}
-			printf("ok\n");
 		while (1)
 		{
 			if (utils.died)
@@ -165,20 +166,18 @@ int main (int ac, char **av)
 			// if (utils.options.num_must_eat)
 			// {
 				int i = -1;
-				while (utils.options.num_must_eat && ++i < utils.options.num_of_philos)
-				{
-					if (philos[i].n_eat < utils.options.num_must_eat)
+				// while (utils.options.num_must_eat && ++i < utils.options.num_of_philos)
+				// {
+					if (philos[utils.options.num_of_philos - 1].n_eat == utils.options.num_must_eat)
 					{
+						pthread_mutex_lock(&utils.printing);
+						printf("n eat=%d\n", philos[0].n_eat);
+						printf("n eat=%d\n", philos[1].n_eat);
+						printf("n eat=%d\n", philos[2].n_eat);
 						// printf("n_eat=%d\tnum must eat=%d\n", philos[i].n_eat, utils.options.num_must_eat);
-						break;
+						exit(1);
 					}
-				}
-				if (i > utils.options.num_of_philos)
-				{
-					printf("here\n");
-					ft_print(philos[1], "died");
-					return (0);
-				}
+				// }
 			// }
 		}
 	}
