@@ -1,4 +1,4 @@
-FLAGS = -Wall -Wextra -Werror -lncurses -g
+FLAGS = -Wall -Wextra -Werror
 
 NAME = philo
 

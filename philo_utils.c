@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/03 19:06:19 by cbenali-          #+#    #+#             */
+/*   Updated: 2021/09/03 19:55:11 by cbenali-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-unsigned long long	get_time()
+int	get_time(int initial_time)
 {
 	struct timeval	time_v;
 
 	gettimeofday(&time_v, NULL);
-	return ((time_v.tv_sec * 1000) + (time_v.tv_usec / 1000));
+	return ((time_v.tv_sec * 1000) + (time_v.tv_usec / 1000) - initial_time);
 }
 
-int					ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	int		i;
 	int		signe;
@@ -38,11 +50,11 @@ int					ft_atoi(const char *str)
 }
 void	ft_print(t_philo philo, char *msg)
 {
-	unsigned long long current_t;
+	int current_t;
 
 	pthread_mutex_lock(&philo.utils->printing);
 
-	current_t = get_time() - philo.utils->initial_time;
-	printf("%llu %d %s\n", current_t, philo.id + 1, msg);
+	current_t = get_time(philo.utils->initial_time);
+	printf("%d %d %s\n", current_t, philo.id + 1, msg);
 	pthread_mutex_unlock(&philo.utils->printing);
 }

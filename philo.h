@@ -19,7 +19,7 @@ typedef struct s_utils {
 	t_options			options;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		printing;
-	unsigned long long	initial_time;
+	int	initial_time;
 	int					died;
 }				t_utils;
 
@@ -27,7 +27,7 @@ typedef struct s_philo {
 	pthread_t			philo_t;
 	t_utils				*utils;
 	int					id;
-	unsigned long long	last_meal_t;
+	int	last_meal_t;
 	int					n_eat;
 }				t_philo;
 
@@ -35,9 +35,9 @@ typedef struct s_philo {
 	** UTILS
 */
 
-unsigned long long	get_time(void);
-void				ft_print(t_philo philo, char *msg);
-int					ft_atoi(const char *str);
+int		get_time(int initial_time);
+void	ft_print(t_philo philo, char *msg);
+int		ft_atoi(const char *str);
 
 /*
 	** INITIALISATIONS
@@ -51,7 +51,7 @@ void				init_philos(t_philo **philos, t_utils *utils);
 	** ACITONS
 */
 
-void				ft_sleep(int sleep_time);
+void				ft_sleep(int sleep_time, int initial_time);
 void				eating(t_philo *philo);
 void				ft_exit(t_philo **philos, t_utils *utils);
 void				supervisor(t_philo **philos, t_utils *utils);

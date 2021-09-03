@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   actions.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/03 19:07:57 by cbenali-          #+#    #+#             */
+/*   Updated: 2021/09/03 19:56:26 by cbenali-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-void	ft_sleep(int sleep_time)
+void	ft_sleep(int sleep_time, int initial_time)
 {
 	int	time;
 
-	time = get_time();
-	usleep(sleep_time * 1000 - 14000);
-	while (get_time() - time <= (unsigned long long)sleep_time * 1000);
-
+	time = get_time(initial_time);
+	usleep((sleep_time - 2)* 1000);
+	while (get_time(initial_time) - time < sleep_time)
+		;
 }
 
 void	eating(t_philo *philo)
@@ -17,22 +29,21 @@ void	eating(t_philo *philo)
 
 	r_fork = philo->id;
 	l_fork = (philo->id + 1) % philo->utils->options.num_of_philos;
-
 	pthread_mutex_lock(&philo->utils->forks[l_fork]);
 	ft_print(*philo, "has taken a fork");
 	pthread_mutex_lock(&philo->utils->forks[r_fork]);
 	ft_print(*philo, "has taken a fork");
-	philo->last_meal_t = get_time();
+	philo->last_meal_t = get_time(philo->utils->initial_time);
+	philo->n_eat += 1;
 	ft_print(*philo, "is eating");
-	philo->n_eat += 1;ft_sleep(philo->utils->options.time_to_eat);
-
+	ft_sleep(philo->utils->options.time_to_eat, philo->utils->initial_time);
 	pthread_mutex_unlock(&philo->utils->forks[r_fork]);
 	pthread_mutex_unlock(&philo->utils->forks[l_fork]);
 }
 
 void	ft_exit(t_philo **philos, t_utils *utils)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < utils->options.num_of_philos)
@@ -43,16 +54,17 @@ void	ft_exit(t_philo **philos, t_utils *utils)
 
 void	supervisor(t_philo **philos, t_utils *utils)
 {
-	int					i;
-	unsigned long long	current_t;
+	int	i;
+	int	current_t;
 
 	while (1)
 	{
 		i = -1;
 		while (++i < utils->options.num_of_philos)
 		{
-			current_t = get_time();
-			if (get_time() - (*philos)[i].last_meal_t >= (unsigned long long)utils->options.time_to_die)
+			current_t = get_time(utils->initial_time);
+			if (get_time(utils->initial_time) - (*philos)[i].last_meal_t
+				>= (int)utils->options.time_to_die)
 			{
 				ft_print((*philos)[i], "died");
 				ft_exit(philos, utils);
