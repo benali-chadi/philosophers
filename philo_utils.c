@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 19:06:19 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/03 19:55:11 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/04 16:16:45 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ int	ft_atoi(const char *str)
 	}
 	return (res * signe);
 }
+
 void	ft_print(t_philo philo, char *msg)
 {
-	int current_t;
+	int	current_t;
 
 	pthread_mutex_lock(&philo.utils->printing);
-
 	current_t = get_time(philo.utils->initial_time);
 	printf("%d %d %s\n", current_t, philo.id + 1, msg);
 	pthread_mutex_unlock(&philo.utils->printing);

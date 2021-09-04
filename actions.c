@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 19:07:57 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/03 19:56:26 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/04 15:57:36 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_sleep(int sleep_time, int initial_time)
 	int	time;
 
 	time = get_time(initial_time);
-	usleep((sleep_time - 2)* 1000);
+	usleep(sleep_time * 1000 - 14000);
 	while (get_time(initial_time) - time < sleep_time)
 		;
 }
@@ -50,38 +50,4 @@ void	ft_exit(t_philo **philos, t_utils *utils)
 		pthread_mutex_destroy(&utils->forks[i]);
 	free(utils->forks);
 	free(*philos);
-}
-
-void	supervisor(t_philo **philos, t_utils *utils)
-{
-	int	i;
-	int	current_t;
-
-	while (1)
-	{
-		i = -1;
-		while (++i < utils->options.num_of_philos)
-		{
-			current_t = get_time(utils->initial_time);
-			if (get_time(utils->initial_time) - (*philos)[i].last_meal_t
-				>= (int)utils->options.time_to_die)
-			{
-				ft_print((*philos)[i], "died");
-				ft_exit(philos, utils);
-				return ;
-			}
-		}
-		if (utils->options.num_must_eat > 0)
-		{
-			i = -1;
-			while (++i < utils->options.num_of_philos)
-				if ((*philos)[i].n_eat < utils->options.num_must_eat)
-					break ;
-			if (i >= utils->options.num_of_philos)
-			{
-				ft_exit(philos, utils);
-				break ;
-			}
-		}
-	}
 }

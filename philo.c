@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 19:05:06 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/03 19:54:58 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/04 16:15:11 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,37 @@ void	*philo_routine(void *arg)
 	return (NULL);
 }
 
+void	launch(t_philo **philos, t_utils *utils)
+{
+	struct timeval	time_v;
+	int				i;
+
+	gettimeofday(&time_v, NULL);
+	utils->initial_time = (time_v.tv_sec * 1000) + (time_v.tv_usec / 1000);
+	i = 0;
+	while (i < utils->options.num_of_philos)
+	{
+		(*philos)[i].last_meal_t = get_time(utils->initial_time);
+		pthread_create(&(*philos)[i].philo_t,
+			NULL, &philo_routine, &(*philos)[i]);
+		i += 2;
+	}
+	usleep(100);
+	i = 1;
+	while (i < utils->options.num_of_philos)
+	{
+		(*philos)[i].last_meal_t = get_time(utils->initial_time);
+		pthread_create(&(*philos)[i].philo_t, NULL,
+			&philo_routine, &(*philos)[i]);
+		i += 2;
+	}
+}
+
 int	main(int ac, char **av)
 {
 	static t_philo	*philos;
 	static t_utils	utils;
-	int				i;
-	
+
 	if (ac < 5)
 	{
 		printf("Not enough arguments!\n");
@@ -43,25 +68,7 @@ int	main(int ac, char **av)
 	if (!utils.options.num_must_eat)
 		return (0);
 	init_philos(&philos, &utils);
-	struct timeval	time_v;
-
-	gettimeofday(&time_v, NULL);
-	utils.initial_time = (time_v.tv_sec * 1000) + (time_v.tv_usec / 1000);
-	i = 0;
-	while (i < utils.options.num_of_philos)
-	{
-		philos[i].last_meal_t = get_time(utils.initial_time);
-		pthread_create(&philos[i].philo_t, NULL, &philo_routine, &philos[i]);
-		i += 2;
-	}
-	usleep(100);
-	i = 1;
-	while (i < utils.options.num_of_philos)
-	{
-		philos[i].last_meal_t = get_time(utils.initial_time);
-		pthread_create(&philos[i].philo_t, NULL, &philo_routine, &philos[i]);
-		i += 2;
-	}
+	launch(&philos, &utils);
 	supervisor(&philos, &utils);
 	return (0);
 }

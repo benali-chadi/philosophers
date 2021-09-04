@@ -4,7 +4,7 @@ NAME = philo
 
 NAMELIB = libftprintf.a
 
-SRC = philo.c philo_utils.c initialisations.c actions.c
+SRC = philo.c philo_utils.c initialisations.c actions.c supervisor.c
 
 all : $(NAME)
 

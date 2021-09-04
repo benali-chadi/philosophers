@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 19:05:23 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/03 19:10:50 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/04 16:09:53 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	init_utils(t_utils *utils, char **av)
 {
 	utils->options.num_of_philos = ft_atoi(av[1]);
-	// utils->initial_time = get_time();
 	utils->died = 0;
 	utils->options.time_to_die = ft_atoi(av[2]);
 	utils->options.time_to_eat = ft_atoi(av[3]);
@@ -47,7 +46,6 @@ void	init_philos(t_philo **philos, t_utils *utils)
 	{
 		(*philos)[i].utils = utils;
 		(*philos)[i].id = i;
-		// (*philos)[i].last_meal_t = utils->initial_time;
 		(*philos)[i].n_eat = 0;
 	}
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/04 16:15:56 by cbenali-          #+#    #+#             */
+/*   Updated: 2021/09/04 16:16:20 by cbenali-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -19,7 +31,7 @@ typedef struct s_utils {
 	t_options			options;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		printing;
-	int	initial_time;
+	int					initial_time;
 	int					died;
 }				t_utils;
 
@@ -27,7 +39,7 @@ typedef struct s_philo {
 	pthread_t			philo_t;
 	t_utils				*utils;
 	int					id;
-	int	last_meal_t;
+	int					last_meal_t;
 	int					n_eat;
 }				t_philo;
 
@@ -43,17 +55,17 @@ int		ft_atoi(const char *str);
 	** INITIALISATIONS
 */
 
-void				init_utils(t_utils *utils, char **av);
-void				init_forks(t_utils *utils);
-void				init_philos(t_philo **philos, t_utils *utils);
+void	init_utils(t_utils *utils, char **av);
+void	init_forks(t_utils *utils);
+void	init_philos(t_philo **philos, t_utils *utils);
 
 /*
 	** ACITONS
 */
 
-void				ft_sleep(int sleep_time, int initial_time);
-void				eating(t_philo *philo);
-void				ft_exit(t_philo **philos, t_utils *utils);
-void				supervisor(t_philo **philos, t_utils *utils);
+void	ft_sleep(int sleep_time, int initial_time);
+void	eating(t_philo *philo);
+void	ft_exit(t_philo **philos, t_utils *utils);
+void	supervisor(t_philo **philos, t_utils *utils);
 
 #endif
