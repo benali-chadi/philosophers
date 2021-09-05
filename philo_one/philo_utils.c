@@ -6,11 +6,11 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 19:06:19 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/04 16:16:45 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/05 19:31:03 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo_header.h"
 
 int	get_time(int initial_time)
 {
@@ -57,4 +57,12 @@ void	ft_print(t_philo philo, char *msg)
 	current_t = get_time(philo.utils->initial_time);
 	printf("%d %d %s\n", current_t, philo.id + 1, msg);
 	pthread_mutex_unlock(&philo.utils->printing);
+}
+
+void	ft_print_two(t_utils_two philo, char *msg)
+{
+	int	current_t;
+
+	current_t = get_time(philo.initial_time);
+	printf("%d %d %s\n", current_t, philo.id, msg);
 }

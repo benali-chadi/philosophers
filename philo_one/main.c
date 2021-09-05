@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 19:05:06 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/04 16:15:11 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/05 19:31:03 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo_header.h"
 
 void	*philo_routine(void *arg)
 {
@@ -37,7 +37,7 @@ void	launch(t_philo **philos, t_utils *utils)
 	i = 0;
 	while (i < utils->options.num_of_philos)
 	{
-		(*philos)[i].last_meal_t = get_time(utils->initial_time);
+		(*philos)[i].last_meal = get_time(utils->initial_time);
 		pthread_create(&(*philos)[i].philo_t,
 			NULL, &philo_routine, &(*philos)[i]);
 		i += 2;
@@ -46,7 +46,7 @@ void	launch(t_philo **philos, t_utils *utils)
 	i = 1;
 	while (i < utils->options.num_of_philos)
 	{
-		(*philos)[i].last_meal_t = get_time(utils->initial_time);
+		(*philos)[i].last_meal = get_time(utils->initial_time);
 		pthread_create(&(*philos)[i].philo_t, NULL,
 			&philo_routine, &(*philos)[i]);
 		i += 2;
@@ -58,9 +58,9 @@ int	main(int ac, char **av)
 	static t_philo	*philos;
 	static t_utils	utils;
 
-	if (ac < 5)
+	if (ac < 5 || ac > 6)
 	{
-		printf("Not enough arguments!\n");
+		printf("Error in arguments!\n");
 		return (1);
 	}
 	init_utils(&utils, av);

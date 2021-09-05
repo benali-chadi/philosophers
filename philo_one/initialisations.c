@@ -6,16 +6,15 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 19:05:23 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/04 16:09:53 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/05 19:31:03 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo_header.h"
 
 void	init_utils(t_utils *utils, char **av)
 {
 	utils->options.num_of_philos = ft_atoi(av[1]);
-	utils->died = 0;
 	utils->options.time_to_die = ft_atoi(av[2]);
 	utils->options.time_to_eat = ft_atoi(av[3]);
 	utils->options.time_to_sleep = ft_atoi(av[4]);
