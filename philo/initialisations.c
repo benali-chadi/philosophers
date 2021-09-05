@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo_header.h"
+#include "philo.h"
 
 void	init_utils(t_utils *utils, char **av)
 {

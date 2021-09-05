@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo_header.h"
+#include "philo.h"
 
 void	ft_sleep(int sleep_time, int initial_time)
 {

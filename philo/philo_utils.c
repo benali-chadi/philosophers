@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo_header.h"
+#include "philo.h"
 
 int	get_time(int initial_time)
 {
@@ -57,12 +57,4 @@ void	ft_print(t_philo philo, char *msg)
 	current_t = get_time(philo.utils->initial_time);
 	printf("%d %d %s\n", current_t, philo.id + 1, msg);
 	pthread_mutex_unlock(&philo.utils->printing);
-}
-
-void	ft_print_two(t_utils_two philo, char *msg)
-{
-	int	current_t;
-
-	current_t = get_time(philo.initial_time);
-	printf("%d %d %s\n", current_t, philo.id, msg);
 }

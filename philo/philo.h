@@ -19,6 +19,8 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <semaphore.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 typedef struct s_options {
 	int	num_of_philos;
@@ -43,16 +45,6 @@ typedef struct s_philo {
 	int					n_eat;
 }				t_philo;
 
-typedef struct	s_utils_two {
-	t_options	options;
-	pthread_t	philo;
-	sem_t		*forks;
-	int			id;
-	int			initial_time;
-	int			last_meal;
-	int			n_eat;
-}				t_utils_two;
-
 /*
 	** UTILS
 */
@@ -60,8 +52,6 @@ typedef struct	s_utils_two {
 int		get_time(int initial_time);
 void	ft_print(t_philo philo, char *msg);
 int		ft_atoi(const char *str);
-
-void	ft_print_two(t_utils_two philo, char *msg);
 
 /*
 	** INITIALISATIONS

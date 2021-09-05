@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo_header.h"
+#include "philo.h"
 
 static int	starve(t_philo **philos, t_utils *utils)
 {
