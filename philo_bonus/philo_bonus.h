@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 19:27:15 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/06 19:27:16 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/06 19:59:17 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		get_time(int initial_time);
 void	ft_print_two(t_utils_two philo, char *msg);
 int		ft_atoi(const char *str);
 void	init_utils(t_utils_two *utils, char **av);
+void	ft_free(t_utils_two *utils);
 
 /*
     ** ACTIONS

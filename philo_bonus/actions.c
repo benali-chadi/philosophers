@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 19:25:31 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/06 19:25:32 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/06 19:59:38 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ void	supervisor(t_utils_two *utils)
 				>= utils->options.time_to_die))
 		{
 			ft_print_two(*utils, "died");
-			free(utils->pids);
-			sem_close(utils->forks);
-			sem_close(utils->printing);
+			ft_free(utils);
 			exit(1);
 		}
 	}
