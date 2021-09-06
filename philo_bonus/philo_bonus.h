@@ -46,6 +46,6 @@ void	init_utils(t_utils_two *utils, char **av);
 
 void	eating_two(t_utils_two *philo);
 void	ft_sleep(int sleep_time, int initial_time);
-void	supervisor(t_utils_two utils);
+void	supervisor(t_utils_two *utils);
 
 #endif
