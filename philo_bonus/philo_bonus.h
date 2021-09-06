@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/06 19:27:15 by cbenali-          #+#    #+#             */
+/*   Updated: 2021/09/06 19:27:16 by cbenali-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
@@ -19,17 +31,17 @@ typedef struct s_options {
 	int	num_must_eat;
 }				t_options;
 
-typedef struct	s_utils_two {
+typedef struct s_utils_two {
 	t_options	options;
 	pthread_t	philo;
 	sem_t		*forks;
-    sem_t       *printing;
-    int         *pids;
+	sem_t		*printing;
+	int			*pids;
 	int			id;
 	int			initial_time;
 	int			last_meal;
 	int			n_eat;
-}               t_utils_two;
+}				t_utils_two;
 
 /*
 	** UTILS

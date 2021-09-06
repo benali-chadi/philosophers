@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/06 19:24:09 by cbenali-          #+#    #+#             */
+/*   Updated: 2021/09/06 19:24:10 by cbenali-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
 void	*philo_routine(void *arg)
 {
-	t_utils_two *philo;
+	t_utils_two	*philo;
 
 	philo = (t_utils_two *)arg;
 	while (1)
@@ -18,7 +30,7 @@ void	*philo_routine(void *arg)
 void	launch(t_utils_two *utils)
 {
 	struct timeval	time_v;
-	int	i;
+	int				i;
 
 	i = -1;
 	gettimeofday(&time_v, NULL);
@@ -36,10 +48,11 @@ void	launch(t_utils_two *utils)
 	}
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_utils_two		utils;
 	int				i;
+	int				status;
 
 	if (ac < 5 || ac > 6)
 	{
@@ -48,9 +61,8 @@ int main(int ac, char **av)
 	}
 	init_utils(&utils, av);
 	if (!utils.options.num_must_eat)
-		return(0);
+		return (0);
 	launch(&utils);
-	int status;
 	while (wait(&status) != -1)
 	{
 		if (status == 256)
@@ -58,7 +70,7 @@ int main(int ac, char **av)
 			i = -1;
 			while (++i < utils.options.num_of_philos)
 				kill(utils.pids[i], SIGKILL);
-			return(1);
+			return (1);
 		}
 	}
 	return (0);
