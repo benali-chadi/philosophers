@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 19:28:31 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/06 19:58:23 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/08 18:40:40 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,8 @@ void	ft_print_two(t_utils_two philo, char *msg)
 
 void	init_utils(t_utils_two *utils, char **av)
 {
-	if (sem_unlink("forks") || sem_unlink("print"))
-	{
-		printf("Error in sem_unlink\n");
-		exit (1);
-	}
+	sem_unlink("forks");
+	sem_unlink("print");
 	utils->options.num_of_philos = ft_atoi(av[1]);
 	utils->options.time_to_die = ft_atoi(av[2]);
 	utils->options.time_to_eat = ft_atoi(av[3]);

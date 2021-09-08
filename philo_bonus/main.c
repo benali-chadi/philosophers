@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 19:24:09 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/06 19:59:53 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/08 18:45:02 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int ac, char **av)
 			i = -1;
 			while (++i < utils.options.num_of_philos)
 				kill(utils.pids[i], SIGKILL);
-			return (1);
+			break ;
 		}
 	}
 	ft_free(&utils);
