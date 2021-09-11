@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 19:29:10 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/06 19:29:11 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/06 19:59:25 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ int		ft_atoi(const char *str);
 */
 
 void	init_utils(t_utils *utils, char **av);
-void	init_forks(t_utils *utils);
-void	init_philos(t_philo **philos, t_utils *utils);
+int		init_forks(t_utils *utils);
+int		init_philos(t_philo **philos, t_utils *utils);
 
 /*
-	** ACITONS
+	** ACTIONS
 */
 
 void	ft_sleep(int sleep_time, int initial_time);

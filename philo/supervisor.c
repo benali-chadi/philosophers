@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 16:08:41 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/05 19:31:03 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/11 18:45:08 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static int	starve(t_philo **philos, t_utils *utils)
 		if (get_time(utils->initial_time) - (*philos)[i].last_meal
 			>= utils->options.time_to_die)
 		{
-			ft_print((*philos)[i], "died");
+			pthread_mutex_lock(&utils->printing);
+			printf("%d %d died\n", get_time(utils->initial_time), (*philos)[i].id + 1);
+			// ft_print((*philos)[i], "died");
 			ft_exit(philos, utils);
 			return (1);
 		}

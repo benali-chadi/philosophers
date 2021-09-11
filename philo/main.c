@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 19:05:06 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/06 15:33:19 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/06 19:50:29 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,13 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	init_utils(&utils, av);
-	init_forks(&utils);
 	if (!utils.options.num_must_eat)
 		return (0);
-	init_philos(&philos, &utils);
+	if (!init_forks(&utils) || !init_philos(&philos, &utils))
+	{
+		printf("Error in malloc\n");
+		return (0);
+	}
 	launch(&philos, &utils);
 	supervisor(&philos, &utils);
 	return (0);
