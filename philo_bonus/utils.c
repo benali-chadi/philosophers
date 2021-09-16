@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 19:28:31 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/08 18:40:40 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/16 19:48:18 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_utils(t_utils_two *utils, char **av)
 	utils->options.time_to_sleep = ft_atoi(av[4]);
 	utils->options.num_must_eat = -1;
 	utils->n_eat = 0;
+	utils->eating = 0;
 	if (av[5])
 		utils->options.num_must_eat = ft_atoi(av[5]);
 	utils->pids = malloc(sizeof(int) * utils->options.num_of_philos);

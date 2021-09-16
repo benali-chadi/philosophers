@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 19:05:23 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/06 19:44:14 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/15 18:39:01 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	init_philos(t_philo **philos, t_utils *utils)
 		(*philos)[i].utils = utils;
 		(*philos)[i].id = i;
 		(*philos)[i].n_eat = 0;
+		(*philos)[i].eating = 0;
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 19:27:15 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/08 18:40:46 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/16 19:47:53 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_utils_two {
 	int			initial_time;
 	int			last_meal;
 	int			n_eat;
+	int			eating;
 }				t_utils_two;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: cbenali- <cbenali-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 19:29:10 by cbenali-          #+#    #+#             */
-/*   Updated: 2021/09/06 19:59:25 by cbenali-         ###   ########.fr       */
+/*   Updated: 2021/09/15 18:38:37 by cbenali-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_philo {
 	int					id;
 	int					last_meal;
 	int					n_eat;
+	int					eating;
 }				t_philo;
 
 /*

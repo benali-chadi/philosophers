@@ -1,4 +1,4 @@
-FLAGS = -Wall -Wextra -Werror -pthread
+FLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=thread
 
 NAME = philo
 
